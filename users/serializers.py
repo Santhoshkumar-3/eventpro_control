@@ -8,7 +8,7 @@ from .models import CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'role']
+        fields = ['id', 'username', 'email', 'role', 'branch', 'department']
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'password', 'role')
+        fields = ('id', 'username', 'email', 'password', 'role', 'branch', 'department')
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(**validated_data)
@@ -44,7 +44,7 @@ class UserLoginSerializer(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'role')
+        fields = ('id', 'username', 'email', 'role', 'branch', 'department')
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField()

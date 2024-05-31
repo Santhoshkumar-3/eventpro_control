@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
+
+from users import permissions
 from .models import CustomUser
 from .serializers import (
     UserRegistrationSerializer,
@@ -12,10 +14,12 @@ from .serializers import (
     ChangePasswordSerializer,
     CustomUserSerializer,
 )
+
 from rest_framework.exceptions import PermissionDenied
 
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
+    permission_classes = [permissions.IsStaffOrReadOnly]
 
 class UserLoginView(TokenObtainPairView):
     serializer_class = UserLoginSerializer
@@ -61,7 +65,7 @@ class ChangePasswordView(APIView):
 class StudentUserList(generics.ListAPIView):
     queryset = CustomUser.objects.filter(role='student')
     serializer_class = CustomUserSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
 
 class StaffUserList(generics.ListAPIView):
